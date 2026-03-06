@@ -76,8 +76,20 @@ async def on_ready():
 )
 
 async def join(interaction: discord.Interaction):
+
     guild = await client.fetch_guild(1334394629746851913)
     member = await guild.fetch_member(interaction.user.id)
+
+    discord_username = interaction.user.name
+    user_data = users[discord_username]
+
+    if discord_username not in users:
+        await interaction.response.send_message("You are not in our database.")
+
+    # Updating username
+    updated_username = f"{user_data.rank} {user_data.last_name} {user_data.first_name}"
+    print(updated_username)
+    await member.edit(nick=updated_username)
 
     # Fetching game role IDs
     valorant = guild.get_role(1334397946720157727)
